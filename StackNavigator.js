@@ -34,7 +34,7 @@ import ChooseGameToLeaderboardScreen from "./screens/ChooseGameToLeaderboardScre
 import { createMaterialBottomTabNavigator } from "@react-navigation/material-bottom-tabs";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import useAuth from "./hooks/useAuth";
-
+import { useFonts } from "expo-font";
 const Tab = createMaterialBottomTabNavigator();
 const Stack = createNativeStackNavigator();
 
@@ -42,7 +42,7 @@ function BottomNavTabs() {
   return (
     <Tab.Navigator
       initialRouteName={homeName}
-      barStyle={{ backgroundColor: "#4B354D" }}
+      barStyle={{ backgroundColor: "#5B00A9" }}
       activeColor="#ffd500"
       inactiveColor="ffffff"
       screenOptions={({ route }) => ({
@@ -65,7 +65,10 @@ function BottomNavTabs() {
       })}
     >
       <Tab.Screen name={homeName} component={HomeScreen} />
-      <Tab.Screen name={leaderboardName} component={ChooseGameToLeaderboardScreen} />
+      <Tab.Screen
+        name={leaderboardName}
+        component={ChooseGameToLeaderboardScreen}
+      />
       {/* <Tab.Screen name={analyticsName} component={AnalyticsScreen} /> */}
       <Tab.Screen name={profileName} component={ProfileScreen} />
     </Tab.Navigator>
@@ -73,9 +76,15 @@ function BottomNavTabs() {
 }
 
 const StackNavigator = () => {
-  const { user } = useAuth();
+  const { user, logOut } = useAuth();
   // check if the logged in user has a level up account
+  const [loaded] = useFonts({
+    Valorant: require("./assets/Fonts/Valorant-Font.ttf"),
+  });
 
+  if (!loaded) {
+    return null;
+  }
   //Return the Home Screen only if the user is logged in
   //If the user isn't logged in, we only show the login screen
   return (
@@ -87,14 +96,39 @@ const StackNavigator = () => {
             component={BottomNavTabs}
             options={{
               title: "LevelUp",
-              headerLeft: () => <MaterialIcons name={"menu"} size={24} />,
-              headerRight: () => <MaterialIcons name={"person"} size={24} />,
+              headerTransparent: true,
+              headerStyle: {
+                backgroundColor: "#5B00A9",
+                opacity: 0.5,
+              },
+              headerTintColor: "blue",
+              headerTitleStyle: {
+                color: "white",
+                fontFamily: "Valorant",
+              },
+              headerBlurEffect: "light",
+              headerRight: () => (
+                <MaterialIcons
+                  name={"logout"}
+                  size={24}
+                  onPress={logOut}
+                  color={"white"}
+                />
+              ),
             }}
           />
           <Stack.Screen name={selectGameScreen} component={SelectGameScreen} />
           <Stack.Screen
             name={leaderboardGameSelected}
             component={LeaderboardScreen}
+            options={{
+              title: "",
+              headerBackTitle: "Back",
+              headerStyle: {
+                backgroundColor: "#43007C",
+                opacity: 0.5,
+              },
+            }}
           />
 
           {/* Modals */}
@@ -123,7 +157,11 @@ const StackNavigator = () => {
           </Stack.Group>
         </>
       ) : (
-        <Stack.Screen name={loginName} component={LoginScreen} />
+        <Stack.Screen
+          name={loginName}
+          component={LoginScreen}
+          options={{ headerShown: false }}
+        />
       )}
     </Stack.Navigator>
   );

@@ -11,9 +11,6 @@ import SelectGameCard from "../components/SelectGameCard";
 import { collection, doc, onSnapshot } from "firebase/firestore";
 import { db } from "../firebase";
 
-//const docRef = doc(db, "gameLibrary");
-//const docSnap = await getDoc(docRef);
-
 const SelectGameScreen = () => {
   const [games, setGames] = useState([]);
   useEffect(() => {
@@ -46,8 +43,15 @@ const SelectGameScreen = () => {
           backgroundColor: "rgba(0,0,0,0.5)",
         }}
       >
-        <View className="flex-row pb-3 items-center mx-4 space-x-2">
-          <Text className="text-white font-bold text-2xl">Choose a Game!</Text>
+        <View className="flex-row pt-3 items-center mx-4 space-x-2 justify-center">
+          <Text
+            className="text-white font-bold text-2xl"
+            style={{
+              fontFamily: "Karla",
+            }}
+          >
+            Add a Game to your Library
+          </Text>
         </View>
         <ScrollView
           className="pt-4"

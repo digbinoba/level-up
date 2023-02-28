@@ -46,7 +46,12 @@ const LibraryCard = ({
             opacity: 0.7,
           }}
         />
-        <Text className="font-extrabold text-white absolute bottom-10 right-3 text-xl pb-6">
+        <Text
+          className="font-extrabold text-white absolute bottom-10 right-3 text-xl pb-6"
+          style={{
+            fontFamily: "Karla",
+          }}
+        >
           {name}
         </Text>
       </View>

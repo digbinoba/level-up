@@ -4,11 +4,9 @@ import { useNavigation } from "@react-navigation/native";
 
 const deviceWidth = Math.round(Dimensions.get("window").width);
 
-const PlayerCard = ({name, imgUrl}) => {
+const PlayerCard = ({ name, imgUrl }) => {
   return (
-    <TouchableOpacity
-      className="mt-2"
-    >
+    <TouchableOpacity className="mt-2">
       <View
         className="rounded-xl mx-1.5"
         style={{
@@ -28,7 +26,12 @@ const PlayerCard = ({name, imgUrl}) => {
             opacity: 0.7,
           }}
         />
-        <Text className="font-extrabold text-white absolute bottom-10 right-3 text-xl pb-6">
+        <Text
+          className="font-extrabold text-white absolute bottom-10 right-3 text-xl pb-6"
+          style={{
+            fontFamily: "Karla",
+          }}
+        >
           {name}
         </Text>
       </View>

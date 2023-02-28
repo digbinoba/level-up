@@ -5,6 +5,7 @@ import {
   Button,
   TouchableOpacity,
   Alert,
+  ImageBackground,
 } from "react-native";
 import React from "react";
 import { useRoute } from "@react-navigation/native";
@@ -101,33 +102,47 @@ const GameDescriptionModalScreen = () => {
   };
   return (
     <>
-      {/* Header */}
-      <Image source={{ uri: imgUrl }} className="h-1/3 w-full rounded-sm" />
-      {/* Description */}
-      <View className="px-3 pb-4">
-        <View className="flex-row items-center space-x-4 justify-center pt-4 pb-2">
-          <Text>{"20K Players"}</Text>
-          <Text>{"20K Players"}</Text>
-          <Text>{"20K Players"}</Text>
-        </View>
-        <Text className="font-bold text-lg">{name}</Text>
-        <Text className="text-sm">{description}</Text>
-      </View>
-
-      {/* Add to library button */}
-
-      <View className="flex-row justify-center">
-        <TouchableOpacity
-          className="bg-violet-500 rounded-lg w-2/4 items-center h-12 flex-row"
-          onPress={() => {
-            addGameToLibrary();
-          }}
-        >
-          <Text className="font-bold text-lg text-center flex-1">
-            Add To library 2.0
+      <ImageBackground
+        resizeMethod="cover"
+        source={{
+          uri: "https://static.vecteezy.com/system/resources/previews/008/605/397/original/dark-blue-and-purple-abstract-background-with-big-circle-suitable-for-mobile-app-background-vector.jpg",
+        }}
+        style={{
+          width: "100%",
+          height: "100%",
+          backgroundColor: "rgba(0,0,0,0.5)",
+        }}
+      >
+        {/* Header */}
+        <Image source={{ uri: imgUrl }} className="h-1/3 w-full rounded-sm" />
+        {/* Description */}
+        <View className="px-3 pb-4 pt-4">
+          <Text
+            className="font-bold text-lg text-white"
+            style={{
+              fontFamily: "Valorant",
+            }}
+          >
+            {name}
           </Text>
-        </TouchableOpacity>
-      </View>
+          <Text className="text-sm text-white">{description}</Text>
+        </View>
+
+        {/* Add to library button */}
+
+        <View className="flex-row justify-center">
+          <TouchableOpacity
+            className="bg-violet-500 rounded-lg w-2/4 items-center h-12 flex-row shadow-md"
+            onPress={() => {
+              addGameToLibrary();
+            }}
+          >
+            <Text className="font-bold text-lg text-center flex-1">
+              Add To Library
+            </Text>
+          </TouchableOpacity>
+        </View>
+      </ImageBackground>
     </>
   );
 };
