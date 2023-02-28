@@ -32,7 +32,7 @@ import {
 const LeaderboardScreenModal = () => {
   const navigation = useNavigation();
   const {
-    params: { userName, rank, id, gameId, gameData },
+    params: { userName, rank, id, gameId, gameData, totalScore },
   } = useRoute();
   const [gameLibrary, setGameLibrary] = useState([]);
   const [profileImage, setProfileImage] = useState([]);
@@ -108,33 +108,88 @@ const LeaderboardScreenModal = () => {
           {/* Name and UserName */}
           <View className="py-20">
             <View className="flex-row items-center justify-center space-x-8">
-              <Text className="text-white font-bold text-2xl">{userName}</Text>
-              <Text className="text-white font-bold text-2xl">
+              <Text
+                className="text-white font-bold text-xl"
+                style={{
+                  fontFamily: "Valorant",
+                }}
+              >
+                {userName}
+              </Text>
+              <Text
+                className="text-white font-bold text-xl"
+                style={{
+                  fontFamily: "Valorant",
+                }}
+              >
                 Current Rank: {rank}
+              </Text>
+            </View>
+            <View className="flex-row items-center justify-center space-x-8">
+              <Text
+                className="text-white font-bold text-xl"
+                style={{
+                  fontFamily: "Valorant",
+                }}
+              >
+                Current Score: {totalScore}
               </Text>
             </View>
           </View>
           {/* Players Library */}
           <View className="flex-row pb-3 items-center mx-4 space-x-2">
-            <Text className="text-white font-bold text-2xl">Recent Scores</Text>
+            <Text
+              className="text-white font-bold text-2xl"
+              style={{
+                fontFamily: "Karla",
+              }}
+            >
+              Recent Scores
+            </Text>
           </View>
           <View className="py-3">
             <View className="flex-row items-center justify-center space-x-8">
               {/* Scores Column */}
               <View className="flex-col items-center justify-center space-x-8 flex">
-                <Text className="text-white font-bold text-xl">Score</Text>
+                <Text
+                  className="text-white font-bold text-xl"
+                  style={{
+                    fontFamily: "Karla",
+                  }}
+                >
+                  Score
+                </Text>
                 {recentGames?.map((game) => (
                   <>
-                    <Text className="text-white font-bold">{game.score}</Text>
+                    <Text
+                      className="text-white font-bold"
+                      style={{
+                        fontFamily: "Karla",
+                      }}
+                    >
+                      {game.score}
+                    </Text>
                   </>
                 ))}
               </View>
               {/* Date Column */}
               <View className="flex-col items-center justify-center space-x-8 flex">
-                <Text className="text-white font-bold text-xl">Date</Text>
+                <Text
+                  className="text-white font-bold text-xl"
+                  style={{
+                    fontFamily: "Karla",
+                  }}
+                >
+                  Date
+                </Text>
                 {recentGames?.map((game) => (
                   <>
-                    <Text className="text-white font-bold">
+                    <Text
+                      className="text-white font-bold"
+                      style={{
+                        fontFamily: "Karla",
+                      }}
+                    >
                       {game.createdAt
                         .toDate()
                         .toDateString()
@@ -149,7 +204,12 @@ const LeaderboardScreenModal = () => {
           </View>
 
           <View className="flex-row pb-3 items-center mx-4 space-x-2">
-            <Text className="text-white font-bold text-2xl">
+            <Text
+              className="text-white font-bold text-2xl"
+              style={{
+                fontFamily: "Karla",
+              }}
+            >
               {userName} also plays
             </Text>
           </View>

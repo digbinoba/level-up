@@ -1,4 +1,10 @@
-import { View, Text, SafeAreaView, ScrollView } from "react-native";
+import {
+  View,
+  Text,
+  SafeAreaView,
+  ScrollView,
+  ImageBackground,
+} from "react-native";
 import React, { useEffect, useLayoutEffect, useState } from "react";
 import { LinearGradient } from "expo-linear-gradient";
 import GameCardRow from "../components/GameCardRow";
@@ -16,10 +22,7 @@ import {
   doc,
 } from "firebase/firestore";
 const LeaderboardScreen = ({ navigation }) => {
-  const [value, setValue] = useState("");
   const [leaderboard, setLeaderboard] = useState([]);
-  const [leader2, setLeader2] = useState([]);
-  const [userName, setUserName] = useState("");
   const [profileImage, setProfileImage] = useState([]);
   const {
     params: { name, description, imgUrl, id, gameObject },
@@ -33,22 +36,13 @@ const LeaderboardScreen = ({ navigation }) => {
       onSnapshot(doc(db, "levelUpAccounts", playerId), (snapshot) => {
         let temp = snapshot.get("profilePicture");
         dataToPush.imgUrl = temp;
-        let itemData=[];
+        let itemData = [];
         itemData.push(dataToPush);
-
-        console.log(itemData + "index is at " + i);
         setProfileImage([...profileImage, itemData]);
       });
     }
-    //   leaderboard.map(person => (
-    //     onSnapshot(doc(db, "levelUpAccounts", person.id), (snapshot) => {
-    //     console.log(person.id + 'right here maube')
-    //     const tempData = [person.id]
-    //     setProfileImage(tempData);
-    //  })))
   }, []);
 
-  console.log(leaderboard);
   useEffect(() => {
     let unsub;
     const getAllUser = async () => {
@@ -57,79 +51,79 @@ const LeaderboardScreen = ({ navigation }) => {
         orderBy("totalScore", "desc")
       );
       const queryGroupSnapShot = await getDocs(queryGroup);
-      // console.log(queryGroupSnapShot.docs.at(1).data());
-      // console.log("wow the log above me has the daata")
-      // console.log("length of info " + queryGroupSnapShot.docs.length);
       let tempLeaderBoard = [];
-
-      // const profileRef = doc(db, "levelUpAccounts", id, "users", user);
-      // const profileSnap = await getDoc(profileRef);
-      // for (let i = 0; i < queryGroupSnapShot.docs.length; i++) {
-      //   console.log(i + ' is the index')
-      //   tempLeaderBoard.push(queryGroupSnapShot.doc.at(0).data());
-      // }
       queryGroupSnapShot.forEach((data) => {
-        //console.log("player " + doc.id, " => ", doc.data());
-        // onSnapshot(doc(db, "levelUpAccounts", id), (snapshot) => {
-        //   setProfileImage(snapshot.get("profilePicture"));
-        // });
-
-        // console.log(data.data().totalScore)
         const docData = {
           id: data.id,
           data: data.data(),
+          userId: data.id,
           imgUrl: "",
         };
         if (docData.data.gameId === id) {
           tempLeaderBoard.push(docData);
+          // console.log(docData)
         }
       });
+
       setLeaderboard(tempLeaderBoard);
-      // const leaderboardRef = collection(db, "leaderboard");
-      // const q = query(
-      //   leaderboardRef,
-      //   where("totalScore", ">", 0),
-      //   orderBy("totalScore", "asc")
-      // );
-      // const querySnapshot = await getDocs(q);
-      // console.log(querySnapshot.docs);
-      // onSnapshot(leaderboardRef, (snapshot) => {
-      //   let scoreInfo = [];
-      //   snapshot.docs.forEach((doc) => {
-      //     scoreInfo.push({ ...doc.data(), id: doc.id });
-      //   });
-      //   console.log(scoreInfo);
-      // });
     };
     getAllUser();
   }, []);
   useEffect(() => {});
   return (
     <SafeAreaView>
-      <LinearGradient
-        colors={["#461873", "#28002F", "#FBDA58"]}
-        start={{ x: 0, y: 0.5 }}
-        end={{ x: 0.8, y: 0.8 }}
-        locations={[0.2, 0.5, 0.8]}
+      <ImageBackground
+        resizeMethod="cover"
+        source={{
+          uri: "https://static.vecteezy.com/system/resources/previews/008/605/397/original/dark-blue-and-purple-abstract-background-with-big-circle-suitable-for-mobile-app-background-vector.jpg",
+        }}
+        style={{
+          width: "100%",
+          height: "100%",
+          backgroundColor: "rgba(0,0,0,0.5)",
+        }}
       >
-        <View className="items-start px-3">
-          <Text className="font-bold text-2xl text-white">LEADERBOARD</Text>
-          <Text className="text-white">{name}</Text>
+        <View
+          style={{
+            height: "100%",
+            backgroundColor: "rgba(0,0,0,0.4)",
+          }}
+        >
+          <View className="items-center px-3 justify-center pt-4">
+            <Text
+              className="font-bold text-2xl text-white"
+              style={{
+                fontFamily: "Valorant",
+              }}
+            >
+              LEADERBOARD
+            </Text>
+            <Text
+              className="text-white"
+              style={{
+                fontFamily: "Valorant",
+              }}
+            >
+              {name}
+            </Text>
+          </View>
+          <ScrollView>
+            {/* Leaderboard Cells go here */}
+            {leaderboard?.map((data, index) => (
+              <LeaderboardCell
+                userName={data.data.playersName}
+                rank={index + 1}
+                key={data.id}
+                id={data.id}
+                gameId={data.data.gameId}
+                gameData={data.data.scores}
+                userId={data.userId}
+                totalScore={data.data.totalScore}
+              />
+            ))}
+          </ScrollView>
         </View>
-        <ScrollView>
-          {/* Leaderboard Cells go here */}
-          {leaderboard?.map((data, index) => (
-            <LeaderboardCell
-              userName={data.data.playersName}
-              rank={index + 1}
-              key={data.id}
-              id={data.id}
-              gameId={data.data.gameId}
-              gameData={data.data.scores}
-            />
-          ))}
-        </ScrollView>
-      </LinearGradient>
+      </ImageBackground>
     </SafeAreaView>
   );
 };

@@ -4,26 +4,38 @@ import { useNavigation } from "@react-navigation/native";
 
 const deviceWidth = Math.round(Dimensions.get("window").width);
 
-const SelectGameCard = ({ name, description, imgUrl, id, gameObject, sendToLeaderBoard }) => {
+const SelectGameCard = ({
+  name,
+  description,
+  imgUrl,
+  id,
+  gameObject,
+  sendToLeaderBoard,
+}) => {
   const navigation = useNavigation();
 
   return (
     <TouchableOpacity
       className="mt-2"
-      onPress={sendToLeaderBoard ? ( () => {
-        navigation.navigate("GameDescriptionModalScreen", {
-          name,
-          description,
-          imgUrl,
-          id,
-        });
-      }) : (()=> {navigation.navigate("LeaderboardGameSelected", {
-        name,
-        description,
-        imgUrl,
-        id,
-      });
-      })}
+      onPress={
+        sendToLeaderBoard
+          ? () => {
+              navigation.navigate("GameDescriptionModalScreen", {
+                name,
+                description,
+                imgUrl,
+                id,
+              });
+            }
+          : () => {
+              navigation.navigate("LeaderboardGameSelected", {
+                name,
+                description,
+                imgUrl,
+                id,
+              });
+            }
+      }
     >
       <View
         className="rounded-xl mx-1.5"
@@ -44,7 +56,12 @@ const SelectGameCard = ({ name, description, imgUrl, id, gameObject, sendToLeade
             opacity: 0.7,
           }}
         />
-        <Text className="font-extrabold text-white absolute bottom-10 right-3 text-xl">
+        <Text
+          className="font-extrabold text-white absolute bottom-10 right-3 text-xl"
+          style={{
+            fontFamily: "Karla",
+          }}
+        >
           {name}
         </Text>
       </View>

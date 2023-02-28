@@ -14,31 +14,22 @@ import { doc, serverTimestamp, setDoc } from "firebase/firestore";
 import { db } from "../firebase";
 import { useNavigation } from "@react-navigation/native";
 import useAuth from "../hooks/useAuth";
-
+import { useFonts } from "expo-font";
 const MakeLevelUpProfileModalScreen = () => {
-  const someImg = require("../assets/img1.png");
+  const someImg = require("../assets/createAcccount.png");
   const [enteredUserName, setEnteredUserName] = useState();
   const navigation = useNavigation();
 
   const { user } = useAuth();
-  // add username to database
 
-  console.log(enteredUserName);
-  const addToLibraryAlert = () => {
-    return new Promise((resolve, reject) => {
-      Alert.alert(
-        "Account has been made",
-        `Welcome to the cool club, ${enteredUserName}'`,
-        [
-          {
-            text: "OK",
-            onPress: () => resolve("OK"),
-          },
-        ],
-        { cancelable: false }
-      );
-    });
-  };
+  const [loaded] = useFonts({
+    Valorant: require("../assets/Fonts/Valorant-Font.ttf"),
+    Karla: require("../assets/Fonts/Karla-Variable.ttf"),
+  });
+
+  if (!loaded) {
+    return null;
+  }
 
   const updateLevelUpUserName = () => {
     setDoc(doc(db, "levelUpAccounts", user), {
@@ -56,12 +47,12 @@ const MakeLevelUpProfileModalScreen = () => {
         });
       })
       .then(() => {
-        setDoc(doc(db,"userGameLibrary", user), {
-          
-        })
+        setDoc(doc(db, "userGameLibrary", user), {});
       })
       .then(() => {
-        alert("your username has been created")
+        alert(
+          `Your username has been created! Welcome to LevelUp, ${enteredUserName}!`
+        );
         navigation.navigate("Home");
       })
       .catch((error) => {
@@ -81,13 +72,32 @@ const MakeLevelUpProfileModalScreen = () => {
           backgroundColor: "rgba(0,0,0,0.5)",
         }}
       >
-        <View className="h-36 w-96 flex-row justify-center">
+        <View className="h-36 w-96 flex-row justify-center py-10">
           <Image source={someImg} className="h-36 w-36 rounded-sm" />
         </View>
-        <Text className="text-white text-lg font-bold">
-          Welcome to Level Up! Please make an username, Gamer!
-        </Text>
-        <View className="bg-blue-200">
+        <View className="py-10">
+          <Text
+            className="text-white text-2xl text-center pt-6"
+            style={{
+              fontFamily: "Valorant",
+            }}
+          >
+            Welcome to Level Up!
+          </Text>
+          <Text
+            className="text-white text-lg font-bold text-justify pt-3 m-6"
+            style={{
+              fontFamily: "Karla",
+            }}
+          >
+            It seems that you don't have a username. Please make a username and
+            climb to the top of your competition!
+          </Text>
+        </View>
+
+        <View
+          className="bg-[#A084DC] space-x-4 m-3 shadow shadow-[#FFE15D] rounded"
+        >
           <TextInput
             className="text-white text-center text-xl"
             placeholder="Enter your username here!"
@@ -96,7 +106,7 @@ const MakeLevelUpProfileModalScreen = () => {
             keyboardType="default"
           />
         </View>
-        <View className="flex-row justify-center">
+        <View className="flex-row justify-center m-4">
           <TouchableOpacity
             className="bg-violet-500 rounded-lg w-2/4 items-center h-12 flex-row"
             onPress={updateLevelUpUserName}

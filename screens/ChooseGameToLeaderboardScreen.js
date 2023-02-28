@@ -42,11 +42,28 @@ const ChooseGameToLeaderboardScreen = () => {
           backgroundColor: "rgba(0,0,0,0.5)",
         }}
       >
-        <View className="flex-row pb-3 items-center mx-4 space-x-2">
-          <Text className="text-white font-bold text-2xl">Game Select</Text>
+        <View className="flex-row items-center mx-4 space-x-2 pt-3">
+          <View className='flex-1'>
+            <Text
+              className="text-white font-bold text-2xl"
+              style={{
+                fontFamily: "Valorant",
+              }}
+            >
+              LEADERBOARD
+            </Text>
+            <Text
+              className="text-white font-bold text-lg"
+              style={{
+                fontFamily: "Karla",
+              }}
+            >
+              Select a game to view the top scores
+            </Text>
+          </View>
         </View>
         <ScrollView
-          className="pt-4"
+          className="pt-2"
           contentContainerStyle={{
             paddingVertical: 10,
           }}

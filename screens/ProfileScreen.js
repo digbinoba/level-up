@@ -22,10 +22,9 @@ const ProfileScreen = () => {
   const [profileImage, setProfileImage] = useState();
   useLayoutEffect(() => {
     onSnapshot(doc(db, "levelUpAccounts", user), (snapshot) => {
-        setUserName(snapshot.get("userName"));
-        setProfileImage(snapshot.get("profilePicture"))
-      }
-    );
+      setUserName(snapshot.get("userName"));
+      setProfileImage(snapshot.get("profilePicture"));
+    });
   }, []);
   useEffect(() => {
     let unsub;
@@ -75,12 +74,14 @@ const ProfileScreen = () => {
               />
             </View>
             {/* Profile Picture */}
-            <View className="flex-row justify-center absolute top-1/4 left-1/4 px-8 py-20">
+            <View className="flex-row justify-center absolute top-1/4 left-1/4 px-8 py-20 shadow-md shadow-yellow-200">
               <Image
                 source={{
                   uri: profileImage,
-                  height: 100,
-                  width: 100,
+                }}
+                style={{
+                  height: 140,
+                  width: 140,
                 }}
                 className="h-36 w-36 rounded-full"
               />
@@ -90,32 +91,24 @@ const ProfileScreen = () => {
           {/* Name and UserName */}
           <View className="py-20">
             <View className="flex-row items-center justify-center space-x-8">
-              <Text className="text-white font-bold">
+              <Text
+                className="text-white font-bold text-xl"
+                style={{
+                  fontFamily: "Valorant",
+                }}
+              >
                 {userName}
               </Text>
             </View>
 
-            {/* Stats and achivementd */}
-            <View className="flex-row items-center justify-center space-x-3 py-5">
-              <Text className="text-white font-bold text-lg">Games Played</Text>
-              <Text className="text-white font-bold text-lg">Achivements</Text>
-              <Text className="text-white font-bold text-lg">Hours Played</Text>
-            </View>
-            <View className="flex-row items-center justify-center space-x-3 py-1">
-              <Text className="text-white font-bold text-lg">
-                {userProfile[0].gamesPlayed}
-              </Text>
-              <Text className="text-white font-bold text-lg">
-                {userProfile[0].achievements}
-              </Text>
-              <Text className="text-white font-bold text-lg">
-                {userProfile[0].hoursPlayed}
-              </Text>
-            </View>
-
             {/* Game Library */}
-            <View className="flex-row pb-3 items-center mx-4 space-x-2">
-              <Text className="text-white font-bold text-2xl">
+            <View className="flex-row pb-3 pt-3 items-center mx-4 space-x-2">
+              <Text
+                className="text-white font-bold text-2xl"
+                style={{
+                  fontFamily: "Karla",
+                }}
+              >
                 Your Library
               </Text>
             </View>
